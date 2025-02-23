@@ -1,7 +1,8 @@
 ﻿@page "/Estadisticas"
 @using Microsoft.EntityFrameworkCore
+@using proyectoframework.Models
 @rendermode InteractiveServer
-@* @inject HabitosDbContext _context *@
+@inject HabitosDbContext _context
 
 <PageTitle>Estadísticas</PageTitle>
 
@@ -39,14 +40,14 @@
         overflow: hidden;
         height: 20px;
         margin-top: 10px;
-        }
+    }
 
     .bar {
         height: 100%;
         text-align: right;
         line-height: 20px;
         color: white;
-            font-weight: bold;
+        font-weight: bold;
         border-radius: 8px;
     }
 
@@ -68,27 +69,27 @@
         height: 15px;
         display: inline-block;
         border-radius: 50%;
-        }
+    }
 </style>
 
 <div class="dashboard">
     <h1>Dashboard de Hábitos</h1>
-            <p>Bienvenido, <strong>Samirsito</strong></p>
+    <p>Bienvenido, <strong>Samirsito</strong></p>
 
     <div class="stats">
         <div class="card">
-                <h3>Total Hábitos</h3>
+            <h3>Total Hábitos</h3>
             <p class="number">@TotalHabitos</p>
-            </div>
-            <div class="card">
+        </div>
+        <div class="card">
             <h3>Completados</h3>
             <p class="number">@HabitosCompletados</p>
-            </div>
-            <div class="card">
-                <h3>Progreso</h3>
+        </div>
+        <div class="card">
+            <h3>Progreso</h3>
             <p class="number">@Progreso%</p>
-            </div>
-            </div>
+        </div>
+    </div>
 
     <h2>Progreso de Hábitos</h2>
     <div class="graph">
@@ -97,11 +98,11 @@
             <div class="graph-item">
                 <span>@habito.Titulo (@habito.Progreso%)</span>
                 <div class="bar-container">
-                    <div class="bar" style="width: @(habito.Progreso)% ; background-color: @<Component />"></div>
+                    <div class="bar" style="width: @(habito.Progreso)% ; background-color: @ObtenerColor((habito.Progreso ?? 0))"></div>
                 </div>
             </div>
         }
-            </div>
+    </div>
 
     <h2>Distribución de Hábitos por Tipo</h2>
     <div class="graph">
@@ -134,9 +135,10 @@
         Habitos = listaHabitos.Where(h => h.Progreso.HasValue).ToList();
 
         HabitosPorTipo = listaHabitos
-            .Where(h => !string.IsNullOrEmpty(h.Tipo))
-            .GroupBy(h => h.Tipo)
-            .ToDictionary(g => g.Key, g => g.Count());
+    .Where(h => !string.IsNullOrEmpty(h.Tipo))
+    .GroupBy(h => h.Tipo ?? "Desconocido")
+    .ToDictionary(g => g.Key, g => g.Count());
+
     }
 
     private string ObtenerColor(int progreso)
@@ -144,6 +146,6 @@
         if (progreso >= 80) return "#4CAF50";  // Verde
         if (progreso >= 50) return "#FFC107";  // Amarillo
         return "#F44336";  // Rojo
-            }
-        }
+    }
+}
 

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using proyectoframework.Models;
 
-namespace proyectoframework;
+namespace proyectoframework.Models;
 
 public partial class HabitosDbContext : DbContext
 {
@@ -26,8 +25,8 @@ public partial class HabitosDbContext : DbContext
     {
 
     }
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-      //  => optionsBuilder.UseSqlServer("Server=DESKTOP-458CD4I\\SQLEXPRESS;Database=HabitosDB;Integrated Security=True;TrustServerCertificate=True;");
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        //=> optionsBuilder.UseSqlServer("Server=DESKTOP-458CD4I\\SQLEXPRESS;Database=HabitosDB;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,6 +42,7 @@ public partial class HabitosDbContext : DbContext
             entity.Property(e => e.Descripcion)
                 .HasColumnType("text")
                 .HasColumnName("descripcion");
+            entity.Property(e => e.Dificultad).HasColumnName("dificultad");
             entity.Property(e => e.Duracion)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -56,7 +56,32 @@ public partial class HabitosDbContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
                 .HasColumnName("fecha_creacion");
+            entity.Property(e => e.FechaUltimaRealizacion)
+                .HasColumnType("datetime")
+                .HasColumnName("fecha_ultima_realizacion");
+            entity.Property(e => e.Frecuencia)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("frecuencia");
+            entity.Property(e => e.HoraDia)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("hora_dia");
             entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
+            entity.Property(e => e.Meta)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("meta");
+            entity.Property(e => e.Motivacion)
+                .HasColumnType("text")
+                .HasColumnName("motivacion");
+            entity.Property(e => e.Notas)
+                .HasColumnType("text")
+                .HasColumnName("notas");
+            entity.Property(e => e.Progreso)
+                .HasDefaultValue(0)
+                .HasColumnName("progreso");
+            entity.Property(e => e.Satisfaccion).HasColumnName("satisfaccion");
             entity.Property(e => e.Tipo)
                 .HasMaxLength(100)
                 .IsUnicode(false)
@@ -65,6 +90,10 @@ public partial class HabitosDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("titulo");
+            entity.Property(e => e.Ubicacion)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("ubicacion");
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Habitos)
                 .HasForeignKey(d => d.IdUsuario)

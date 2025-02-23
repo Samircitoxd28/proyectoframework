@@ -23,6 +23,26 @@ public partial class Habito
 
     public string? Estado { get; set; }
 
+    public string? Frecuencia { get; set; }
+
+    public string? Meta { get; set; }
+
+    public int? Progreso { get; set; }
+
+    public string? HoraDia { get; set; }
+
+    public string? Ubicacion { get; set; }
+
+    public string? Motivacion { get; set; }
+
+    public int? Dificultad { get; set; }
+
+    public int? Satisfaccion { get; set; }
+
+    public string? Notas { get; set; }
+
+    public DateTime? FechaUltimaRealizacion { get; set; }
+
     public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 
     public virtual ICollection<RegistroHabito> RegistroHabitos { get; set; } = new List<RegistroHabito>();
