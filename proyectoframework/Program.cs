@@ -1,8 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using proyectoframework;
 using proyectoframework.Components;
+using proyectoframework.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 // Add services to the container.
+builder.Services.AddDbContext<HabitosDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
